@@ -1,4 +1,5 @@
 using OpenAI.Embeddings;
+using OpenAI.Moderations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ internal static partial class OpenAIModelFactory
     public static Embedding Embedding(ReadOnlyMemory<float> vector = default, int index = default)
     {
         // TODO: Vector must be converted to base64-encoded string.
-        return new Embedding(index, BinaryData.FromObjectAsJson(vector), InternalEmbeddingObject.Embedding, serializedAdditionalRawData: null);
+        return new Embedding(index, BinaryData.FromObjectAsJson(vector, OpenAIJsonSerializerContext.Default.ReadOnlyMemorySingle), InternalEmbeddingObject.Embedding, serializedAdditionalRawData: null);
     }
 
 }

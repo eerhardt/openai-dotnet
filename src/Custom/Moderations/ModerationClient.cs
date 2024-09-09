@@ -3,6 +3,7 @@ using System.ClientModel;
 using System.ClientModel.Primitives;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -87,7 +88,7 @@ public partial class ModerationClient
         Argument.AssertNotNullOrEmpty(input, nameof(input));
 
         ModerationOptions options = new();
-        CreateModerationOptions(BinaryData.FromObjectAsJson(input), ref options);
+        CreateModerationOptions(BinaryData.FromObjectAsJson(input, OpenAIJsonSerializerContext.Default.String), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = await ClassifyTextInputsAsync(content, cancellationToken.ToRequestOptions()).ConfigureAwait(false);
@@ -104,7 +105,7 @@ public partial class ModerationClient
         Argument.AssertNotNullOrEmpty(input, nameof(input));
 
         ModerationOptions options = new();
-        CreateModerationOptions(BinaryData.FromObjectAsJson(input), ref options);
+        CreateModerationOptions(BinaryData.FromObjectAsJson(input, OpenAIJsonSerializerContext.Default.String), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = ClassifyTextInputs(content, cancellationToken.ToRequestOptions());
@@ -121,7 +122,7 @@ public partial class ModerationClient
         Argument.AssertNotNullOrEmpty(inputs, nameof(inputs));
 
         ModerationOptions options = new();
-        CreateModerationOptions(BinaryData.FromObjectAsJson(inputs), ref options);
+        CreateModerationOptions(BinaryData.FromObjectAsJson(inputs, OpenAIJsonSerializerContext.Default.IEnumerableString), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = await ClassifyTextInputsAsync(content, cancellationToken.ToRequestOptions()).ConfigureAwait(false);
@@ -138,7 +139,7 @@ public partial class ModerationClient
         Argument.AssertNotNullOrEmpty(inputs, nameof(inputs));
 
         ModerationOptions options = new();
-        CreateModerationOptions(BinaryData.FromObjectAsJson(inputs), ref options);
+        CreateModerationOptions(BinaryData.FromObjectAsJson(inputs, OpenAIJsonSerializerContext.Default.IEnumerableString), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = ClassifyTextInputs(content, cancellationToken.ToRequestOptions());
@@ -151,3 +152,7 @@ public partial class ModerationClient
         options.Model = _model;
     }
 }
+[JsonSerializable(typeof(ReadOnlyMemory<float>))]
+[JsonSerializable(typeof(IEnumerable<IEnumerable<int>>))]
+[JsonSerializable(typeof(IEnumerable<string>))]
+internal partial class OpenAIJsonSerializerContext : JsonSerializerContext { }

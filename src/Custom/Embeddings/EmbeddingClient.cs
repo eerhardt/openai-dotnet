@@ -1,3 +1,4 @@
+using OpenAI.Moderations;
 using System;
 using System.ClientModel;
 using System.ClientModel.Primitives;
@@ -89,7 +90,7 @@ public partial class EmbeddingClient
         Argument.AssertNotNullOrEmpty(input, nameof(input));
 
         options ??= new();
-        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(input), ref options);
+        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(input, OpenAIJsonSerializerContext.Default.String), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = await GenerateEmbeddingsAsync(content, cancellationToken.ToRequestOptions()).ConfigureAwait(false);
@@ -108,7 +109,7 @@ public partial class EmbeddingClient
         Argument.AssertNotNullOrEmpty(input, nameof(input));
 
         options ??= new();
-        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(input), ref options);
+        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(input, OpenAIJsonSerializerContext.Default.String), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = GenerateEmbeddings(content, cancellationToken.ToRequestOptions());
@@ -127,7 +128,7 @@ public partial class EmbeddingClient
         Argument.AssertNotNullOrEmpty(inputs, nameof(inputs));
 
         options ??= new();
-        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(inputs), ref options);
+        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(inputs, OpenAIJsonSerializerContext.Default.IEnumerableString), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = await GenerateEmbeddingsAsync(content, cancellationToken.ToRequestOptions()).ConfigureAwait(false);
@@ -147,7 +148,7 @@ public partial class EmbeddingClient
         Argument.AssertNotNullOrEmpty(inputs, nameof(inputs));
 
         options ??= new();
-        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(inputs), ref options);
+        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(inputs, OpenAIJsonSerializerContext.Default.IEnumerableString), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = GenerateEmbeddings(content, cancellationToken.ToRequestOptions());
@@ -166,7 +167,7 @@ public partial class EmbeddingClient
         Argument.AssertNotNullOrEmpty(inputs, nameof(inputs));
 
         options ??= new();
-        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(inputs), ref options);
+        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(inputs, OpenAIJsonSerializerContext.Default.IEnumerableIEnumerableInt32), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = await GenerateEmbeddingsAsync(content, cancellationToken.ToRequestOptions()).ConfigureAwait(false);
@@ -185,7 +186,7 @@ public partial class EmbeddingClient
         Argument.AssertNotNullOrEmpty(inputs, nameof(inputs));
 
         options ??= new();
-        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(inputs), ref options);
+        CreateEmbeddingGenerationOptions(BinaryData.FromObjectAsJson(inputs, OpenAIJsonSerializerContext.Default.IEnumerableIEnumerableInt32), ref options);
 
         using BinaryContent content = options.ToBinaryContent();
         ClientResult result = GenerateEmbeddings(content, cancellationToken.ToRequestOptions());
